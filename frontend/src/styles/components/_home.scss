@@ -59,10 +59,10 @@
   }
 
   #signup-button {
-    background-color: $blue;
+    background-color: $red;
   }
   #signup-button:hover {
-    background-color: darken($blue, 10%);
+    background-color: darken($red, 10%);
     box-shadow: $shadow;
   }
 
