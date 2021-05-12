@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-
+const API = process.env.REACT_APP_API_BASEURL;
 const Home = () => (
   <Fragment>
     <Helmet>
@@ -22,7 +22,13 @@ const Home = () => (
           </ul>
         </div>
         <div className="auth-container">
-          <Link to="/login" className="auth-buttons" id="login-button">
+          {/* <Link exact to="/login" className="auth-buttons" id="login-button"> */}
+          <Link
+            // href={`${API}/login`}
+            to={`${API}/login`}
+            className="auth-buttons"
+            id="login-button"
+          >
             Login
           </Link>
           <Link to="/register" className="auth-buttons" id="signup-button">

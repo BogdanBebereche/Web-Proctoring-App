@@ -6,6 +6,8 @@ import QuizInstructions from "./components/quiz/QuizInstructions";
 import Play from "./components/quiz/Play";
 import QuizSummary from "./components/quiz/QuizSummary";
 
+const API = process.env.REACT_APP_API_BASEURL;
+
 function App() {
   return (
     <Router>
@@ -13,6 +15,7 @@ function App() {
       <Route path="/play/instructions" exact component={QuizInstructions} />
       <Route path="/play/quiz" exact component={Play} />
       <Route path="/play/quizSummary" exact component={QuizSummary} />
+      {/* <Route path={`${API}/login`} exact component={Home} /> */}
     </Router>
   );
 }

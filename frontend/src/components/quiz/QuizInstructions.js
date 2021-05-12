@@ -1,6 +1,10 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+
 import { Helmet } from "react-helmet";
+import { BrowserRouter, Link as RouteLink } from "react-router-dom"; // TODO: routing links
+import { Link } from "@material-ui/core";
+
+const API = process.env.REACT_APP_API_BASEURL;
 
 const QuizInstructions = () => (
   <Fragment>
@@ -32,10 +36,14 @@ const QuizInstructions = () => (
       <br />
       <div>
         <span className="left">
-          <Link to="/">Go back to the Home Page</Link>
+          <RouteLink to="/">Go back to the Home Page</RouteLink>
         </span>
         <span className="right">
-          <Link to="/play/quiz">Start the Exam</Link>
+          <BrowserRouter>
+            <Link button href={`${API}login`}>
+              Start exam
+            </Link>
+          </BrowserRouter>
         </span>
       </div>
     </div>

@@ -5,6 +5,7 @@ import classnames from "classnames";
 
 import questions from "../../questions.json";
 import isEmpty from "../../utils/is-empty";
+import { useAuth } from "../../hooks/useAuth";
 
 class Play extends Component {
   constructor(props) {
@@ -52,12 +53,8 @@ class Play extends Component {
 
   //TODO Do not forget I put the focus check functionality here, may need to move
   componentDidMount() {
-    const {
-      questions,
-      currentQuestion,
-      nextQuestion,
-      previousQuestion,
-    } = this.state;
+    const { questions, currentQuestion, nextQuestion, previousQuestion } =
+      this.state;
     this.displayQuestions(
       questions,
       currentQuestion,
@@ -65,7 +62,7 @@ class Play extends Component {
       previousQuestion
     );
     this.startTimer();
-    setInterval(this.checkFocus, 200);
+    // setInterval(this.checkFocus, 200);
   }
 
   componentWillUnmount() {
@@ -314,12 +311,8 @@ class Play extends Component {
   };
 
   render() {
-    const {
-      currentQuestion,
-      currentQuestionIndex,
-      numberOfQuestions,
-      time,
-    } = this.state;
+    const { currentQuestion, currentQuestionIndex, numberOfQuestions, time } =
+      this.state;
 
     // setInterval(this.checkFocus, 200);
 
