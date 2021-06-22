@@ -22,13 +22,7 @@ const Home = () => (
           </ul>
         </div>
         <div className="auth-container">
-          {/* <Link exact to="/login" className="auth-buttons" id="login-button"> */}
-          <Link
-            // href={`${API}/login`}
-            to={`${API}/login`}
-            className="auth-buttons"
-            id="login-button"
-          >
+          <Link to={`${API}/login`} className="auth-buttons" id="login-button">
             Login
           </Link>
           <Link to="/register" className="auth-buttons" id="signup-button">

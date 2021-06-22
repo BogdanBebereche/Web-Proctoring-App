@@ -14,6 +14,7 @@ router.post("/db/create_student", async function (req, res) {
     await db.Students.create({
       id: req.body.id,
       email: req.body.email,
+      score: null,
     });
     res.sendStatus(201);
   } catch (error) {

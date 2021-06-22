@@ -38,6 +38,7 @@ const QuizInstructions = () => (
         <span className="left">
           <RouteLink to="/">Go back to the Home Page</RouteLink>
         </span>
+
         <span className="right">
           <BrowserRouter>
             <Link button href={`${API}login`}>

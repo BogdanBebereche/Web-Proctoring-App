@@ -1,136 +1,136 @@
 [
-    {
-        "question": "What temperature does water boil at?",
-        "optionA": "50 degrees Celcius",
-        "optionB": "25 degrees Celcius",
-        "optionC": "100 degrees Celcius",
-        "optionD": "150 degrees Celcius",
-        "answer": "100 degrees Celcius"
-    },
+  {
+    "question": "What is the complexity of inserting an element at the beginning of an array?",
+    "optionA": "O(n)",
+    "optionB": "O(1)",
+    "optionC": "O(logn)",
+    "optionD": "O(0)",
+    "answer": "O(n)"
+  },
 
-    {
-        "question": "Who wrote Julius Caesar, Macbeth and Hamlet?",
-        "optionA": "Wole Soyinka",
-        "optionB": "William Shakespeare",
-        "optionC": "Ngozi Chimamanda Adichie",
-        "optionD": "Dan Brown",
-        "answer": "William Shakespeare"
-    },
+  {
+    "question": "What's the complexity for accessing the first inserted element within a stack?",
+    "optionA": "O(n)",
+    "optionB": "O(1)",
+    "optionC": "O(logn)",
+    "optionD": "O(ct)",
+    "answer": "O(n)"
+  },
 
-    {
-        "question": "What did the crocodile swallow in Peter Pan?",
-        "optionA": "A Book",
-        "optionB": "A Computer",
-        "optionC": "A pair of shoes",
-        "optionD": "Alarm Clock",
-        "answer": "Alarm Clock"
-    },
+  {
+    "question": "Which is a correct initialization of a pointer to a FILE?",
+    "optionA": "FILE* pFile = fopen(filepath, filemode);",
+    "optionB": "FILE* pFile = openfile(filename);",
+    "optionC": "FILE* pFile = openfile(filename, filemode);",
+    "optionD": "FILE* pFile = fopen(filename, filemode);",
+    "answer": "FILE* pFile = fopen(filename, filemode);"
+  },
 
-    {
-        "question": "Which is the only mammal that can’t jump?",
-        "optionA": "Dog",
-        "optionB": "Elephant",
-        "optionC": "Goat",
-        "optionD": "Lion",
-        "answer": "Elephant"
-    },
+  {
+    "question": "What is the size of a pointer to char?",
+    "optionA": "4 Bytes",
+    "optionB": "1 Byte",
+    "optionC": "8 Bytes",
+    "optionD": "2 Bytes",
+    "answer": "4 Bytes"
+  },
 
-    {
-        "question": "Who lived at 221B, Baker Street, London?",
-        "optionA": "Tony Stark",
-        "optionB": "Morgan Freeman",
-        "optionC": "Sherlock Holmes",
-        "optionD": "Samuel L. Jackson",
-        "answer": "Sherlock Holmes"
-    },
+  {
+    "question": "Which format specifier is used to display a double value?",
+    "optionA": "%s",
+    "optionB": "%d",
+    "optionC": "%f",
+    "optionD": "%lf",
+    "answer": "%lf"
+  },
 
-    {
-        "question": "What colour is a panda?",
-        "optionA": "Green and Yellow",
-        "optionB": "Blue and Red",
-        "optionC": "Green and White",
-        "optionD": "Black and White",
-        "answer": "Black and White"
-    },
+  {
+    "question": "A pointer which points to a simple linked list element is?",
+    "optionA": "4B on the stack and sizeof(nodeType) in the HEAP",
+    "optionB": "8B on the stack",
+    "optionC": "sizeof(nodeType) on the stack",
+    "optionD": "sizeof(nodeType) on the stack and 4B in the HEAP",
+    "answer": "4B on the stack and sizeof(nodeType) in the HEAP"
+  },
 
-    {
-        "question": "Where is the smallest bone in the human body?",
-        "optionA": "The Chest",
-        "optionB": "The Ear",
-        "optionC": "The Legs",
-        "optionD": "The Hands",
-        "answer": "The Ear"
-    },
+  {
+    "question": "What is the size of an int?",
+    "optionA": "8 Bytes",
+    "optionB": "4 Bytes",
+    "optionC": "2 Bytes",
+    "optionD": "32 Bytes",
+    "answer": "4 Bytes"
+  },
 
-    {
-        "question": "What does the roman numeral C represent?",
-        "optionA": "100",
-        "optionB": "10",
-        "optionC": "10,000",
-        "optionD": "1,000,000",
-        "answer": "100"
-    },
+  {
+    "question": "What is the output of this statement\n \"printf(\"%d\", (a++))\"?",
+    "optionA": "The value of (a + 1)",
+    "optionB": "The current value of a",
+    "optionC": "Error message",
+    "optionD": "Garbage",
+    "answer": "The current value of a"
+  },
 
-    {
-        "question": "What takes place in Hong Kong's Happy Valley?",
-        "optionA": "Chicken Wrestling",
-        "optionB": "Horse racing",
-        "optionC": "Street Racing",
-        "optionD": "Arm Wrestling",
-        "answer": "Horse racing"
-    },
+  {
+    "question": "What does this declaration mean? int x : 4;",
+    "optionA": "X is a four-digit integer",
+    "optionB": "X cannot be greater than a four-digit integer",
+    "optionC": "X is a four-bit integer",
+    "optionD": "None of the above",
+    "answer": "X is a four-bit integer"
+  },
 
-    {
-        "question": "Who painted the Mona Lisa?",
-        "optionA": "Alexander Graham Bell",
-        "optionB": "Sir Isaac Newton",
-        "optionC": "Leonardo Da Vinci",
-        "optionD": "Albert Einstein",
-        "answer": "Leonardo Da Vinci"
-    },
+  {
+    "question": " How many times will the following loop execute?\n for(j = 1; j <= 10; j = j-1)  ",
+    "optionA": "Forever",
+    "optionB": "Never",
+    "optionC": "0",
+    "optionD": "1",
+    "answer": "Forever"
+  },
 
-    {
-        "question": "What’s the most important book in the Moslem religion?",
-        "optionA": "The Koran",
-        "optionB": "The Dictionary",
-        "optionC": "The Bible",
-        "optionD": "The Chemistry text Book",
-        "answer": "The Koran"
-    },
+  {
+    "question": "Which one of the following is a loop construct that will always be executed once?",
+    "optionA": "for",
+    "optionB": "while",
+    "optionC": "switch",
+    "optionD": "do while",
+    "answer": "do while"
+  },
 
-    {
-        "question": "What’s the capital of Ethiopia?",
-        "optionA": "Cape Town",
-        "optionB": "San Francisco",
-        "optionC": "Abuja",
-        "optionD": "Syndey",
-        "answer": "Addis Ababa"
-    },
+  {
+    "question": "How many instances of a class can be declared?",
+    "optionA": "1",
+    "optionB": "10",
+    "optionC": "As per required",
+    "optionD": "None of the answers",
+    "answer": "As per required"
+  },
 
-    {
-        "question": "How many squares are there on a chess board?",
-        "optionA": "128",
-        "optionB": "64",
-        "optionC": "32",
-        "optionD": "256",
-        "answer": "64"
-    },
+  {
+    "question": "Which of the following is invalid?",
+    "optionA": "''",
+    "optionB": "\"\"",
+    "optionC": "'a'",
+    "optionD": "'abc'",
+    "answer": "'abc'"
+  },
 
-    {
-        "question": "Who invented the electric light bulb?",
-        "optionA": "Tom Cruise",
-        "optionB": "Barack Obama",
-        "optionC": "Wole Soyinka",
-        "optionD": "Thomas Edison",
-        "answer": "Thomas Edison"
-    },
+  {
+    "question": "Which of the following symbol is used to denote a pre-processor statement?",
+    "optionA": "!",
+    "optionB": "#",
+    "optionC": "~",
+    "optionD": ";",
+    "answer": "#"
+  },
 
-    {
-        "question": "What are the first three words of the bible?",
-        "optionA": "be with everyone",
-        "optionB": "Again Jesus asked",
-        "optionC": "In the beginning",
-        "optionD": "At that time",
-        "answer": "In the beginning"
-    }
+  {
+    "question": "What is the valid range of numbers for int type of data?",
+    "optionA": "0 to 256",
+    "optionB": "-32768 to +32767",
+    "optionC": "-65536 to +65536",
+    "optionD": "No specific range",
+    "answer": "-32768 to +32767"
+  }
 ]

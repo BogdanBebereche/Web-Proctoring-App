@@ -1,11 +1,52 @@
-import React, { Component, Fragment } from "react";
+import React, { Component, Fragment, useReducer } from "react";
 import { Helmet } from "react-helmet";
-import M, { toast } from "materialize-css";
 import classnames from "classnames";
-
+import M, { toast } from "materialize-css";
 import questions from "../../questions.json";
 import isEmpty from "../../utils/is-empty";
-import { useAuth } from "../../hooks/useAuth";
+import axios from "axios";
+// const userRoute = require("./routes/User");
+// app.use("/user", userRoute);
+const API = process.env.REACT_APP_BASEURL;
+
+// function record() {
+//   window.SpeechRecognition =
+//     window.speechRecognition || window.webkitSpeechRecognition;
+//   var recognition = new window.SpeechRecognition();
+//   recognition.lang = "en-GB";
+//   recognition.continuous = true;
+
+//   recognition.start();
+//   recognition.onresult = function (event) {
+//     var text = event.results[0][0].transcript;
+//     console.log(text);
+//   };
+// }
+
+const record = () => {
+  window.SpeechRecognition =
+    window.speechRecognition || window.webkitSpeechRecognition;
+  const recognition = new window.SpeechRecognition();
+  recognition.interimResults = true;
+  recognition.continuous = true;
+  recognition.addEventListener("result", (e) => {
+    var text = Array.from(e.results)
+      .map((result) => result[0])
+      .map((result) => result.transcript)
+      .join("");
+    console.log(text);
+    if (text.split(" ").length > 4) {
+      text = "";
+      // alert("You cannot talk during the quiz");
+      M.toast({
+        html: "You are not allowed to talk during the quiz!",
+        classes: "toast-invalid",
+        displayLength: 1500,
+      });
+    }
+  });
+  recognition.start();
+};
 
 class Play extends Component {
   constructor(props) {
@@ -35,7 +76,6 @@ class Play extends Component {
     console.log(e.target.innerHTML);
     e.preventDefault();
     e.nativeEvent.stopImmediatePropagation();
-
     alert("You cannot copy exam's content!");
   }
 
@@ -62,6 +102,8 @@ class Play extends Component {
       previousQuestion
     );
     this.startTimer();
+    // this.speechRecognition();
+    record();
     // setInterval(this.checkFocus, 200);
   }
 
@@ -169,11 +211,6 @@ class Play extends Component {
   };
 
   correctAnswer = () => {
-    M.toast({
-      html: "Correct Answer!",
-      classes: "toast-valid",
-      displayLength: 1500,
-    });
     this.setState(
       (prevState) => ({
         score: prevState.score + 1,
@@ -197,12 +234,6 @@ class Play extends Component {
   };
 
   wrongAnswer = () => {
-    navigator.vibrate(1000);
-    M.toast({
-      html: "Wrong Answer!",
-      classes: "toast-invalid",
-      displayLength: 1500,
-    });
     this.setState(
       (prevState) => ({
         wrongAnswers: prevState.wrongAnswers + 1,
@@ -305,6 +336,8 @@ class Play extends Component {
       correctAnswers: state.correctAnswers,
       wrongAnswers: state.wrongAnswers,
     };
+    //await axios.put(, );
+    // await axios.put(`user/${props.id}`, score);
     setTimeout(() => {
       this.props.history.push("/play/quizSummary", playerStats);
     }, 1000);
@@ -322,7 +355,11 @@ class Play extends Component {
           <title>Exam Page</title>
         </Helmet>
 
-        <div className="questions" onCopy={this.handlerCopy}>
+        <div
+          className="questions"
+          onCopy={this.handlerCopy}
+          onLoad={this.record}
+        >
           <h2>Quiz Mode</h2>
           <div className="timer-container">
             <p>
