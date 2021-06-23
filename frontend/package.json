@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/icons": "^4.11.2",
     "@mdi/font": "^4.4.95",
     "axios": "^0.21.1",
     "classnames": "^2.2.6",
@@ -13,6 +15,7 @@
     "react-helmet": "^5.2.1",
     "react-router-dom": "^5.1.0",
     "react-scripts": "3.1.2",
+    "react-webcam": "^5.2.4",
     "redux": "^4.1.0"
   },
   "scripts": {

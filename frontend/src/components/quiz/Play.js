@@ -8,6 +8,7 @@ import axios from "axios";
 // const userRoute = require("./routes/User");
 // app.use("/user", userRoute);
 const API = process.env.REACT_APP_BASEURL;
+const FLASK_API = "http://localhost:5000/";
 
 // function record() {
 //   window.SpeechRecognition =
@@ -104,6 +105,7 @@ class Play extends Component {
     this.startTimer();
     // this.speechRecognition();
     record();
+    axios.get(`${FLASK_API}`);
     // setInterval(this.checkFocus, 200);
   }
 
