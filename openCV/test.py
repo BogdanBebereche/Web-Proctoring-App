@@ -3,6 +3,9 @@ from flask import Flask, request
 import cv2
 import numpy as np
 import dlib
+import time
+from VideoCapture import Device
+
 
 app = Flask(__name__)
 
@@ -15,7 +18,6 @@ def index():
   cap = cv2.VideoCapture(0)
 
   while True:
-
       # Capture frame-by-frame
       ret, frame = cap.read()
       # mirrors the image, I prefer it like that
@@ -77,7 +79,77 @@ def index():
     cap.release()
     cv2.destroyAllWindows()
     return 'No points'
-        
+
+
+
+@app.route('/photo', methods = ['get'])
+def takePhoto():
+  # camera = cv2.VideoCapture(0)
+  # while True:
+  #     return_value,image = camera.read()
+  #     gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+  #     cv2.imshow('image',gray)
+  #     if cv2.waitKey(1)& 0xFF == ord('s'):
+  #         cv2.imwrite('test.jpg',image)
+  #         break
+  # camera.release()
+  # cv2.destroyAllWindows()
+  # return "Null"
+
+
+
+  # cap = cv2.VideoCapture(-0)
+  # while(True):
+  #   success, img = cap.read()
+  #   cv2.imshow('frame',img)
+  #   if cv2.waitKey(1) & 0xFF == ord('q'):
+  #       break
+  # cap.release()
+  # cv2.destroyAllWindows()
+  # return "Null"
+
+
+  # cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+  # ret, frame = cap.read()
+  # img_key = 'imageID2.png'
+  # time.sleep(0.1)
+  # cv2.imwrite(img_key, frame)
+  # return "Null"
+
+  # cam = Device()
+  # cam.saveSnapshot('image.jpg')
+
+
+  videoCaptureObject = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+  time.sleep(0.1)
+  result = True
+  while(result):
+    ret,frame = videoCaptureObject.read()
+    cv2.imwrite("imageID.jpg",frame)
+    result = False
+  videoCaptureObject.release()
+  cv2.destroyAllWindows()
+  return "NULL"
+
+
+
+  # result = True
+  # while(result):
+  #     ret,frame = videoCaptureObject.read()
+  #     cv2.imwrite("imageID.jpg",frame)
+  #     result = False
+  # videoCaptureObject.release()
+  # cv2.destroyAllWindows()
+#   video_capture = cv2.VideoCapture(0)
+#   # Check success
+#   if not video_capture.isOpened():
+#       raise Exception("Could not open video device")
+#   # Read picture. ret === True on success
+#   ret, frame = video_capture.read()
+
+#   # Close device
+#   video_capture.release()
+  
 
 if __name__ == '__main__':
   app.run(debug=True)
