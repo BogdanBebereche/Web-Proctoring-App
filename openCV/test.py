@@ -1,5 +1,5 @@
 from flask import Flask, request
-
+from flask_cors import CORS
 import cv2
 import numpy as np
 import dlib
@@ -8,6 +8,7 @@ from VideoCapture import Device
 
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/', methods = ['get'])
 def index():

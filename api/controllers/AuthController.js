@@ -15,11 +15,10 @@ passport.use(
       try {
         let [user, created] = await db.Students.findOrCreate({
           where: {
-            id: profile._json.sub, //TODO: study this further
+            id: profile._json.sub,
             email: profile._json.email,
           },
-        }); // get instance returned by promise
-        // 'created' is unimportant to us
+        });
         done(null, user);
       } catch (error) {
         console.log(error);
@@ -41,8 +40,6 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-module.exports.passport = passport;
-
 module.exports.checkAuth = (req, res, next) => {
   if (req.isAuthenticated()) {
     next();
@@ -50,3 +47,5 @@ module.exports.checkAuth = (req, res, next) => {
     res.status(401).send("Not authenticated.");
   }
 };
+
+module.exports.passport = passport;

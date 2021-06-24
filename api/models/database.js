@@ -45,8 +45,12 @@ sequelize
   });
 
 db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+// db.Sequelize = Sequelize;
 
 db.Students = require("./Students")(sequelize, Sequelize);
+db.Reports = require("./Reports")(sequelize, Sequelize);
+
+db.Students.hasMany(db.Reports); //<--- a student has many notes
+db.Reports.belongsTo(db.Students); //<--- a note belongs to a student
 
 module.exports = db;

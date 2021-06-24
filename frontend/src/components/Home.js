@@ -9,6 +9,10 @@ const Home = () => (
     </Helmet>
     <div id="home">
       <section>
+        <br />
+        <br />
+        <br />
+        <br />
         <h1>Exam App</h1>
         <br />
         <br />
@@ -20,14 +24,6 @@ const Home = () => (
               </Link>
             </li>
           </ul>
-        </div>
-        <div className="auth-container">
-          <Link to={`${API}/login`} className="auth-buttons" id="login-button">
-            Login
-          </Link>
-          <Link to="/register" className="auth-buttons" id="signup-button">
-            Sign up
-          </Link>
         </div>
       </section>
     </div>

@@ -11,12 +11,20 @@ require("dotenv").config();
 
 const test = require("./routes/test");
 const auth = require("./routes/auth");
+const reports = require("./routes/Reports");
 
 const app = express();
-app.use(cors());
+// app.use(cors());
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 
 // tell express to use sessions and our own store
 var dbStore = new SequelizeStore({
@@ -43,16 +51,10 @@ app.use(passport.session());
 //API ENDPOINTS
 app.use("/test", test);
 app.use("/", auth);
+app.use("/report", reports);
 
 //test route
 app.get("/", (req, res) => res.send("Example Home page!"));
-
-// app.use(
-//   cookieSession({
-//     name: "exam",
-//     keys: ["key1", "key2"],
-//   })
-// );
 
 const port = process.env.PORT || 3002;
 app.listen(port, () => console.log(`App listening on port ${port}`));

@@ -1,6 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
+import Default from "../Default";
+import axios from "axios";
+const API = process.env.REACT_APP_API_BASEURL;
+const config = {
+  baseURL: `${API}`,
+  withCredentials: true,
+};
 
 class QuizSummary extends Component {
   constructor(props) {
@@ -11,7 +18,26 @@ class QuizSummary extends Component {
       numberOfAnsweredQuestions: 0,
       correctAnswers: 0,
       wrongAnswers: 0,
+      user: false,
     };
+  }
+
+  async checkAuth() {
+    try {
+      let response = await axios.get(`/status`, config);
+      console.log(response);
+      if (response.status === 200) {
+        this.setState({
+          user: true,
+        });
+      } else if (response.status === 401) {
+        this.setState({
+          user: false,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   componentDidMount() {
@@ -25,6 +51,10 @@ class QuizSummary extends Component {
         wrongAnswers: state.wrongAnswers,
       });
     }
+  }
+
+  componentWillMount() {
+    this.checkAuth();
   }
 
   render() {
@@ -95,13 +125,15 @@ class QuizSummary extends Component {
         </section>
       );
     }
-    return (
+    return this.state.user ? (
       <Fragment>
         <Helmet>
           <title>Exam App - Summary</title>
         </Helmet>
         <div className="quiz-summary">{stats}</div>
       </Fragment>
+    ) : (
+      <Default />
     );
   }
 }

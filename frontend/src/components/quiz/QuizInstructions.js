@@ -3,7 +3,7 @@ import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { BrowserRouter, Link as RouteLink } from "react-router-dom"; // TODO: routing links
 import { Link } from "@material-ui/core";
-
+const API = process.env.REACT_APP_API_BASEURL;
 const REACT_API = process.env.REACT_APP_BASEURL;
 
 const QuizInstructions = () => (
@@ -40,7 +40,11 @@ const QuizInstructions = () => (
         </span>
 
         <span className="right">
-          <RouteLink to="/play/checkid">Check ID</RouteLink>
+          <BrowserRouter>
+            <Link button href={`${API}login`}>
+              Login
+            </Link>
+          </BrowserRouter>
         </span>
       </div>
     </div>

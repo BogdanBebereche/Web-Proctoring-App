@@ -7,7 +7,7 @@ REACT_APP_BASEURL = "http://localhost:3000/";
 router.get(
   "/login",
   (req, res, next) => {
-    // We get the referrer and store it in the user session so we know where
+    // I get the referrer and store it in the user session so we know where
     // to send them back to after authenticating.
     req.session.backUrl = req.get("Referrer");
     next();
@@ -16,18 +16,6 @@ router.get(
     scope: ["profile", "email"],
   })
 );
-
-// router.get(
-//   "/login",
-
-//   authController.passport.authenticate("google", {
-//     scope: ["profile", "email"],
-//   })
-// );
-
-//test
-router.get("/success", (req, res) => res.send("Success"));
-router.get("/failed", (req, res) => res.send("Failed"));
 
 router.get(
   "/google/callback",
@@ -38,9 +26,8 @@ router.get(
   })
 );
 
-// //TODO: test, improve? add errors?
 router.get("/redirect", (req, res) => {
-  res.status(301).redirect(`${REACT_APP_BASEURL}play/quiz`);
+  res.status(301).redirect(`${REACT_APP_BASEURL}play/checkid`);
 });
 
 router.get("/status", (req, res) => {
