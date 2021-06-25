@@ -4,6 +4,8 @@ module.exports = function (sequelize, DataTypes) {
     noSpeech: DataTypes.INTEGER,
     noTabSwitch: DataTypes.INTEGER,
     noFace: DataTypes.INTEGER,
+    noTimeOut: DataTypes.INTEGER,
+    score: DataTypes.FLOAT,
   });
   return Reports;
 };

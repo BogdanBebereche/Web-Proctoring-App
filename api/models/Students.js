@@ -9,9 +9,6 @@ module.exports = function (sequelize, DataTypes) {
       allowNull: false,
       unique: true,
     },
-    score: {
-      type: DataTypes.INTEGER,
-    },
   });
   return Students;
 };

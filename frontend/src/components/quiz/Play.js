@@ -4,49 +4,23 @@ import classnames from "classnames";
 import M, { toast } from "materialize-css";
 import questions from "../../questions.json";
 import isEmpty from "../../utils/is-empty";
+import Default from "../Default";
 import axios from "axios";
-// const userRoute = require("./routes/User");
-// app.use("/user", userRoute);
-const API = process.env.REACT_APP_BASEURL;
+const API = "http://localhost:3002/";
 const FLASK_API = "http://localhost:5000/";
 
-// function record() {
-//   window.SpeechRecognition =
-//     window.speechRecognition || window.webkitSpeechRecognition;
-//   var recognition = new window.SpeechRecognition();
-//   recognition.lang = "en-GB";
-//   recognition.continuous = true;
+const config = {
+  baseURL: `${API}`,
+  withCredentials: true,
+};
 
-//   recognition.start();
-//   recognition.onresult = function (event) {
-//     var text = event.results[0][0].transcript;
-//     console.log(text);
-//   };
-// }
-
-const record = () => {
-  window.SpeechRecognition =
-    window.speechRecognition || window.webkitSpeechRecognition;
-  const recognition = new window.SpeechRecognition();
-  recognition.interimResults = true;
-  recognition.continuous = true;
-  recognition.addEventListener("result", (e) => {
-    var text = Array.from(e.results)
-      .map((result) => result[0])
-      .map((result) => result.transcript)
-      .join("");
-    console.log(text);
-    if (text.split(" ").length > 4) {
-      text = "";
-      // alert("You cannot talk during the quiz");
-      M.toast({
-        html: "You are not allowed to talk during the quiz!",
-        classes: "toast-invalid",
-        displayLength: 1500,
-      });
-    }
-  });
-  recognition.start();
+const initialFormState = {
+  noCopyPaste: 0,
+  noSpeech: 0,
+  noTabSwitch: 0,
+  noFace: 0,
+  noTimeOut: 0,
+  score: 0,
 };
 
 class Play extends Component {
@@ -68,29 +42,102 @@ class Play extends Component {
       previousButtonDisabled: true,
       previousRandomNumbers: [],
       time: {},
+      user: false,
+      form: initialFormState,
+      functionHandler: true,
     };
     this.interval = null;
+    this.focus = this.focus.bind(this);
     this.handlerCopy = this.handlerCopy.bind(this);
+    this.record = this.record.bind(this);
   }
 
   handlerCopy(e) {
     console.log(e.target.innerHTML);
     e.preventDefault();
     e.nativeEvent.stopImmediatePropagation();
+    initialFormState.noCopyPaste = initialFormState.noCopyPaste + 1;
+    this.setState({
+      initialFormState,
+    });
     alert("You cannot copy exam's content!");
   }
 
-  //TODO Change the alert, make it prettier
-  //Checks the focus of the page
-  checkFocus = () => {
-    // var info = document.getElementsByClassName("questions");
-    if (!document.hasFocus()) {
+  focusListener() {
+    document.title = document.visibilityState;
+    console.log(document.visibilityState);
+
+    if (document.visibilityState === "hidden") {
+      initialFormState.noTabSwitch = initialFormState.noTabSwitch + 1;
+      // this.setState({
+      //   noTabSwitch: noTabSwitch + 1,
+      // });
       alert("The exam is not focused, this is a warning!");
+
+      let checkInterval = setInterval(() => {
+        if (document.visibilityState === "hidden") {
+          initialFormState.noTimeOut = initialFormState.noTimeOut + 1;
+        }
+      }, 1000);
     }
-    // if (document.activeElement !== info) {
-    //   alert("The exam is not focused, this is a warning!");
-    // }
-  };
+  }
+
+  focus() {
+    document.addEventListener("visibilitychange", this.focusListener);
+  }
+
+  recordListener(e) {
+    var text = Array.from(e.results)
+      .map((result) => result[0])
+      .map((result) => result.transcript)
+      .join("");
+    console.log(text);
+    var noChars = text.split(" ").length;
+    if (noChars > 0) {
+      // alert("You cannot talk during the quiz");
+      M.toast({
+        html: "You are not allowed to talk during the quiz!",
+        classes: "toast-invalid",
+        displayLength: 1500,
+      });
+    }
+    let checkRecord = setInterval(() => {
+      if (noChars > 0) {
+        initialFormState.noSpeech = text.split(" ").length;
+      }
+    }, 3000);
+  }
+
+  record() {
+    window.SpeechRecognition =
+      window.speechRecognition || window.webkitSpeechRecognition;
+    const recognition = new window.SpeechRecognition();
+    recognition.interimResults = true;
+    recognition.continuous = true;
+
+    recognition.addEventListener("result", this.recordListener);
+
+    recognition.start();
+    return recognition;
+  }
+
+  async checkAuth() {
+    try {
+      let response = await axios.get(`/status`, config);
+      console.log(response);
+      if (response.status === 200) {
+        this.setState({
+          user: true,
+        });
+      } else if (response.status === 401) {
+        this.setState({
+          user: false,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   //TODO Do not forget I put the focus check functionality here, may need to move
   componentDidMount() {
@@ -103,14 +150,20 @@ class Play extends Component {
       previousQuestion
     );
     this.startTimer();
-    // this.speechRecognition();
-    record();
+    this.focus();
+    this.record();
     axios.get(`${FLASK_API}`);
-    // setInterval(this.checkFocus, 200);
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
+    document.removeEventListener("visibilitychange", this.focusListener);
+    document.removeEventListener("result", this.recordListener);
+    this.record().removeEventListener("result", this.recordListener);
+  }
+
+  componentWillMount() {
+    this.checkAuth();
   }
 
   displayQuestions = (
@@ -271,7 +324,6 @@ class Play extends Component {
     this.interval = setInterval(() => {
       const now = new Date();
       const distance = countDownTime - now;
-
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
@@ -328,7 +380,7 @@ class Play extends Component {
     }
   };
 
-  endGame = () => {
+  async endGame() {
     alert("Quiz has eneded!");
     const { state } = this;
     const playerStats = {
@@ -338,20 +390,25 @@ class Play extends Component {
       correctAnswers: state.correctAnswers,
       wrongAnswers: state.wrongAnswers,
     };
+
+    initialFormState.score = (state.score / state.numberOfQuestions) * 10;
+    this.setState({
+      initialFormState,
+    });
+    await axios.post(`${API}report/`, this.state.form, config);
+    //this.props.handleSuccess("Report added successfully!");
     //await axios.put(, );
     // await axios.put(`user/${props.id}`, score);
     setTimeout(() => {
       this.props.history.push("/play/quizSummary", playerStats);
     }, 1000);
-  };
+  }
 
   render() {
     const { currentQuestion, currentQuestionIndex, numberOfQuestions, time } =
       this.state;
 
-    // setInterval(this.checkFocus, 200);
-
-    return (
+    return this.state.user ? (
       <Fragment>
         <Helmet>
           <title>Exam Page</title>
@@ -422,6 +479,8 @@ class Play extends Component {
           </div>
         </div>
       </Fragment>
+    ) : (
+      <Default></Default>
     );
   }
 }
