@@ -19,6 +19,11 @@ class QuizSummary extends Component {
       correctAnswers: 0,
       wrongAnswers: 0,
       user: false,
+      noCopyPaste: 0,
+      noSpeech: 0,
+      noTabSwitch: 0,
+      noFace: 0,
+      noTimeOut: 0,
     };
   }
 
@@ -39,6 +44,9 @@ class QuizSummary extends Component {
       console.log(error);
     }
   }
+  // componentDidMount() {
+  //   let results = axios.get(`/report/${props.report.id}`, config);
+  // }
 
   componentDidMount() {
     const { state } = this.props.location;
@@ -49,6 +57,11 @@ class QuizSummary extends Component {
         numberOfAnsweredQuestions: state.numberOfAnsweredQuestions,
         correctAnswers: state.correctAnswers,
         wrongAnswers: state.wrongAnswers,
+        noCopyPaste: state.noCopyPaste,
+        noSpeech: state.noSpeech,
+        noTabSwitch: state.noTabSwitch,
+        noFace: state.noFace,
+        noTimeOut: state.noTimeOut,
       });
     }
   }
@@ -80,10 +93,13 @@ class QuizSummary extends Component {
           <div style={{ textAlign: "center" }}>
             <span className="mdi mdi-check-circle-outline success-icon"></span>
           </div>
-          <h1>Quiz has ended</h1>
+          <h1>Quiz finished</h1>
           <div className="container stats">
             <h4>{remark}</h4>
             <h2>Your Score: {this.state.score.toFixed(0)}&#37;</h2>
+            <br />
+            {/* <span className="stat left">Quiz results: </span>
+            <br />
             <span className="stat left">Total number of questions: </span>
             <span className="right">{this.state.numberOfQuestions}</span>
             <br />
@@ -96,6 +112,23 @@ class QuizSummary extends Component {
             <span className="right">{this.state.correctAnswers}</span> <br />
             <span className="stat left">Number of Wrong Answers: </span>
             <span className="right">{this.state.wrongAnswers}</span>
+            <br />
+            <br /> */}
+            <span className="stat left">Proctoring results: </span>
+            <br />
+            <span className="stat left">Number of copy-paste attempts: </span>
+            <span className="right">{this.state.noCopyPaste}</span>
+            <br />
+            <span className="stat left">Number of words spoken: </span>
+            <span className="right">{this.state.noSpeech}</span>
+            <br />
+            <span className="stat left">
+              Number of times you switched tabs:
+            </span>
+            <span className="right">{this.state.noTabSwitch}</span>
+            <br />
+            <span className="stat left">Number of seconds out of tab: </span>
+            <span className="right">{this.state.noTimeOut}</span>
             <br />
           </div>
           <section>
