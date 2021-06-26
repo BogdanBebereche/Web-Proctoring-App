@@ -5,7 +5,7 @@ var authController = require("../controllers/AuthController");
 REACT_APP_BASEURL = "http://localhost:3000/";
 
 router.get(
-  "/login",
+  "/prof/login",
   (req, res, next) => {
     req.session.backUrl = req.get("Referrer");
     next();
@@ -16,19 +16,19 @@ router.get(
 );
 
 router.get(
-  "/google/callback",
+  "/google/prof/callback",
   authController.passport.authenticate("google", {
     scope: ["profile", "email"],
-    successRedirect: "/redirect",
-    failureRedirect: "/login",
+    successRedirect: "/prof/redirect",
+    failureRedirect: "/prof/login",
   })
 );
 
-router.get("/redirect", (req, res) => {
+router.get("/prof/redirect", (req, res) => {
   res.status(301).redirect(`${REACT_APP_BASEURL}play/checkid`);
 });
 
-router.get("/status", (req, res) => {
+router.get("/prof/status", (req, res) => {
   if (req.user) {
     res.status(200).end();
   } else {

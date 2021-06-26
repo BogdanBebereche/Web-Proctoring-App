@@ -2,15 +2,16 @@ const express = require("express");
 const cors = require("cors");
 var path = require("path");
 const passport = require("passport");
-var cookieSession = require("cookie-session");
 var session = require("express-session");
 var SequelizeStore = require("connect-session-sequelize")(session.Store);
 var db = require("./models/database");
 require("./controllers/AuthController");
+require("./controllers/ProfAuthController");
 require("dotenv").config();
 
 const test = require("./routes/test");
 const auth = require("./routes/auth");
+const profauth = require("./routes/profauth");
 const reports = require("./routes/Reports");
 
 const app = express();
@@ -51,6 +52,7 @@ app.use(passport.session());
 //API ENDPOINTS
 app.use("/test", test);
 app.use("/", auth);
+app.use("/", profauth);
 app.use("/report", reports);
 
 //test route

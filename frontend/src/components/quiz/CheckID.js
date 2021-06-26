@@ -8,7 +8,7 @@ import ReplayIcon from "@material-ui/icons/Replay";
 import axios from "axios";
 import Default from "../Default";
 const API = process.env.REACT_APP_API_BASEURL;
-const FLASK_API_PHOTO = "http://localhost:5000/photo";
+const FLASK_API_PHOTO = "http://localhost:5000/checkid";
 
 const config = {
   baseURL: `${API}`,
@@ -19,8 +19,15 @@ function CheckID() {
   const [webc, setWebc] = useState(true);
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(false);
-  const TakePhoto = () => {
-    axios.get(`${FLASK_API_PHOTO}`);
+  const TakePhoto = async () => {
+    try {
+      const response = await axios.get(`${FLASK_API_PHOTO}`);
+      console.log(response.status);
+    } catch (error) {
+      console.log(error);
+    }
+
+    //console.log(response.status);
     setWebc(!webc);
     setNext(!next);
   };
