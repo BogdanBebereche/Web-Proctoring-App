@@ -14,7 +14,7 @@ const config = {
   withCredentials: true,
 };
 
-const initialFormState = {
+const proctoringData = {
   noCopyPaste: 0,
   noSpeech: 0,
   noTabSwitch: 0,
@@ -43,7 +43,7 @@ class Play extends Component {
       previousRandomNumbers: [],
       time: {},
       user: false,
-      form: initialFormState,
+      form: proctoringData,
       functionHandler: true,
     };
     this.interval = null;
@@ -53,13 +53,9 @@ class Play extends Component {
   }
 
   handlerCopy(e) {
-    console.log(e.target.innerHTML);
     e.preventDefault();
     e.nativeEvent.stopImmediatePropagation();
-    initialFormState.noCopyPaste = initialFormState.noCopyPaste + 1;
-    this.setState({
-      initialFormState,
-    });
+    proctoringData.noCopyPaste = proctoringData.noCopyPaste + 1;
     alert("You cannot copy exam's content!");
   }
 
@@ -67,16 +63,13 @@ class Play extends Component {
     document.title = document.visibilityState;
     console.log(document.visibilityState);
 
-    if (document.visibilityState === "hidden") {
-      initialFormState.noTabSwitch = initialFormState.noTabSwitch + 1;
-      // this.setState({
-      //   noTabSwitch: noTabSwitch + 1,
-      // });
+    if (document.hidden) {
+      proctoringData.noTabSwitch = proctoringData.noTabSwitch + 1;
       alert("The exam is not focused, this is a warning!");
 
       let checkInterval = setInterval(() => {
-        if (document.visibilityState === "hidden") {
-          initialFormState.noTimeOut = initialFormState.noTimeOut + 1;
+        if (document.hidden) {
+          proctoringData.noTimeOut = proctoringData.noTimeOut + 1;
         }
       }, 1000);
     }
@@ -92,9 +85,8 @@ class Play extends Component {
       .map((result) => result.transcript)
       .join("");
     console.log(text);
-    var noChars = text.split(" ").length;
-    if (noChars > 0) {
-      // alert("You cannot talk during the quiz");
+    var noWords = text.split(" ").length;
+    if (noWords > 0) {
       M.toast({
         html: "You are not allowed to talk during the quiz!",
         classes: "toast-invalid",
@@ -102,8 +94,8 @@ class Play extends Component {
       });
     }
     let checkRecord = setInterval(() => {
-      if (noChars > 0) {
-        initialFormState.noSpeech = text.split(" ").length;
+      if (noWords > 0) {
+        proctoringData.noSpeech = text.split(" ").length;
       }
     }, 3000);
   }
@@ -114,9 +106,7 @@ class Play extends Component {
     const recognition = new window.SpeechRecognition();
     recognition.interimResults = true;
     recognition.continuous = true;
-
     recognition.addEventListener("result", this.recordListener);
-
     recognition.start();
     return recognition;
   }
@@ -158,7 +148,7 @@ class Play extends Component {
   componentWillUnmount() {
     clearInterval(this.interval);
     document.removeEventListener("visibilitychange", this.focusListener);
-    document.removeEventListener("result", this.recordListener);
+    //document.removeEventListener("result", this.recordListener);
     this.record().removeEventListener("result", this.recordListener);
   }
 
@@ -389,16 +379,21 @@ class Play extends Component {
       numberOfAnsweredQuestions: state.correctAnswers + state.wrongAnswers,
       correctAnswers: state.correctAnswers,
       wrongAnswers: state.wrongAnswers,
+      noCopyPaste: state.form.noCopyPaste,
+      noSpeech: state.form.noSpeech,
+      noTabSwitch: state.form.noTabSwitch,
+      noTimeOut: state.form.noTimeOut,
     };
 
-    initialFormState.score = (state.score / state.numberOfQuestions) * 10;
-    this.setState({
-      initialFormState,
-    });
+    proctoringData.score = (state.score / state.numberOfQuestions) * 10;
+    // this.setState({
+    //   initialFormState,
+    // });
     await axios.post(`${API}report/`, this.state.form, config);
     //this.props.handleSuccess("Report added successfully!");
     //await axios.put(, );
     // await axios.put(`user/${props.id}`, score);
+
     setTimeout(() => {
       this.props.history.push("/play/quizSummary", playerStats);
     }, 1000);
