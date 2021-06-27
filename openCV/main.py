@@ -87,7 +87,6 @@ def index():
 
 @app.route('/photo', methods = ['get'])
 def photo():
-  takePhoto()
   detector = dlib.get_frontal_face_detector()
   cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
@@ -101,11 +100,11 @@ def photo():
         for face in faces:
             x, y = face.left(), face.top()
             x1, y1 = face.right(), face.bottom()
-            roi_gray = gray[y:y + y1, x:x + x1]
-            face_img = "first_face_id.jpg"
-            TEST_WHOLE_IMG = "TEST_WHOLE_IMG.jpg"
-            cv2.imwrite(face_img, roi_gray)
-            cv2.imwrite(TEST_WHOLE_IMG, frame)
+            roi_gray = gray[y:y + y1, x:x + x1] 
+            id_face_image = "id_face_image.jpg"
+            id_whole_image = "id_whole_image.jpg"
+            cv2.imwrite(id_face_image, roi_gray)
+            cv2.imwrite(id_whole_image, frame)
             cap.release()
             cv2.destroyAllWindows()
             return "OK"
@@ -114,11 +113,11 @@ def photo():
       if cv2.waitKey(1) & 0xFF == ord('q'):
           break
 
-  cap.release()
-  cv2.destroyAllWindows()
-  return "-1"
+  # cap.release()
+  # cv2.destroyAllWindows()
+  # return "-1"
 
-
+#TODO UNUSED
 def takePhoto():
   videoCaptureObject = cv2.VideoCapture(0, cv2.CAP_DSHOW)
   result = True
@@ -134,35 +133,25 @@ def takePhoto():
 
 @app.route('/verifyid', methods = ['get'])
 def verifyid():
-  # Detect the coordinates
   detector = dlib.get_frontal_face_detector()
   cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
   while True:
-      # Capture frame-by-frame
       ret, frame = cap.read()
-      # mirrors the image, I prefer it like that
       frame = cv2.flip(frame, 1)
-
-      # RGB to grayscale, need to process it as grayscale
       gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
       faces = detector(gray)
-
-      # Iterator to count faces
       i = 0
 
-
       for face in faces:
-          # Get the coordinates of faces
           x, y = face.left(), face.top()
           x1, y1 = face.right(), face.bottom()
           cv2.rectangle(frame, (x, y), (x1, y1), (0, 255, 0), 2)
 
           roi_gray = gray[y:y + y1, x:x + x1]
           img_item = "face" + str(i+1)+".jpg"
-          #print(img_item)
           cv2.imwrite(img_item, roi_gray)
-          cv2.imwrite("DETECTED_FACE_IMG.jpg", frame)
+          cv2.imwrite("verification_image.jpg", frame)
 
           # Increment iterator for each face in faces
           i = i + 1
@@ -198,7 +187,6 @@ def verifyid():
               cv2.destroyAllWindows()
               return "UNIDENTIFIED"
 
-      # Display the resulting frame
       #TODO REMOVE
       cv2.imshow('frame', frame)
 

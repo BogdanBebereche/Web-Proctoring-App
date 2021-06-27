@@ -1,0 +1,12 @@
+PORT="3002"
+DB_HOST="localhost"
+DB_NAME="db name here"
+DB_USERNAME="db username here"
+DB_PASSWORD="db password here"
+
+REACT_APP_API_BASEURL="api base url here"
+REACT_APP_BASEURL="react base url here"
+
+GOOGLE_CLIENT_ID="google client id here"
+GOOGLE_CLIENT_SECRET="google client secret here"
+SESSION_SECRET="secret_session"
