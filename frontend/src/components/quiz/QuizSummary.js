@@ -24,6 +24,7 @@ class QuizSummary extends Component {
       noTabSwitch: 0,
       noFace: 0,
       noTimeOut: 0,
+      identification: false,
     };
   }
 
@@ -44,9 +45,6 @@ class QuizSummary extends Component {
       console.log(error);
     }
   }
-  // componentDidMount() {
-  //   let results = axios.get(`/report/${props.report.id}`, config);
-  // }
 
   componentDidMount() {
     const { state } = this.props.location;
@@ -62,6 +60,7 @@ class QuizSummary extends Component {
         noTabSwitch: state.noTabSwitch,
         noFace: state.noFace,
         noTimeOut: state.noTimeOut,
+        identification: state.identification,
       });
     }
   }
@@ -117,18 +116,54 @@ class QuizSummary extends Component {
             <span className="stat left">Proctoring results: </span>
             <br />
             <span className="stat left">Number of copy-paste attempts: </span>
-            <span className="right">{this.state.noCopyPaste}</span>
+            {this.state.noCopyPaste > 0 ? (
+              <span className="right" style={{ color: "red" }}>
+                {this.state.noCopyPaste}
+              </span>
+            ) : (
+              <span className="right">{this.state.noCopyPaste}</span>
+            )}
             <br />
-            <span className="stat left">Number of words spoken: </span>
-            <span className="right">{this.state.noSpeech}</span>
+
+            <span className="stat left">Number of words spoken </span>
+            {this.state.noSpeech > 0 ? (
+              <span className="right" style={{ color: "red" }}>
+                {this.state.noSpeech}
+              </span>
+            ) : (
+              <span className="right">{this.state.noSpeech}</span>
+            )}
             <br />
             <span className="stat left">
-              Number of times you switched tabs:
+              Number of times you switched tabs{" "}
             </span>
-            <span className="right">{this.state.noTabSwitch}</span>
+            {this.state.noTabSwitch > 0 ? (
+              <span className="right" style={{ color: "red" }}>
+                {this.state.noTabSwitch}
+              </span>
+            ) : (
+              <span className="right">{this.state.noTabSwitch}</span>
+            )}
             <br />
-            <span className="stat left">Number of seconds out of tab: </span>
-            <span className="right">{this.state.noTimeOut}</span>
+            <span className="stat left">Number of seconds out of tab </span>
+            {this.state.noTimeOut > 0 ? (
+              <span className="right" style={{ color: "red" }}>
+                {this.state.noTimeOut}
+              </span>
+            ) : (
+              <span className="right">{this.state.noTimeOut}</span>
+            )}
+            <br />
+            <span className="stat left">Identification </span>
+            {this.state.identification === false ? (
+              <span className="right" style={{ color: "red" }}>
+                {this.state.identification.toString()}
+              </span>
+            ) : (
+              <span className="right">
+                {this.state.identification.toString()}
+              </span>
+            )}
             <br />
           </div>
           <section>

@@ -14,6 +14,11 @@ const config = {
   withCredentials: true,
 };
 
+const config_FLASK = {
+  baseURL: `${FLASK_API}`,
+  withCredentials: true,
+};
+
 const proctoringData = {
   noCopyPaste: 0,
   noSpeech: 0,
@@ -21,6 +26,7 @@ const proctoringData = {
   noFace: 0,
   noTimeOut: 0,
   score: 0,
+  identification: false,
 };
 
 class Play extends Component {
@@ -60,8 +66,8 @@ class Play extends Component {
   }
 
   focusListener() {
-    document.title = document.visibilityState;
-    console.log(document.visibilityState);
+    // document.title = document.visibilityState;
+    // console.log(document.visibilityState);
 
     if (document.hidden) {
       proctoringData.noTabSwitch = proctoringData.noTabSwitch + 1;
@@ -142,7 +148,33 @@ class Play extends Component {
     this.startTimer();
     this.focus();
     this.record();
-    axios.get(`${FLASK_API}`);
+
+    const verifyid = async () => {
+      try {
+        const response = await axios.get(`${FLASK_API}verifyid`);
+        console.log(response.status);
+        console.log(response.data);
+        if (response.data === "IDENTIFIED") {
+          proctoringData.identification = true;
+          console.log(proctoringData.identification);
+          alert("Identity confirmed");
+          verifyExam();
+        }
+      } catch (error) {
+        console.log(error);
+        verifyid();
+      }
+    };
+    verifyid();
+
+    console.log("NOW VERIFY EXAM");
+    const verifyExam = async () => {
+      try {
+        const res = await axios.get(`${FLASK_API}`);
+      } catch (error) {
+        console.log(error);
+      }
+    };
   }
 
   componentWillUnmount() {
@@ -383,6 +415,7 @@ class Play extends Component {
       noSpeech: state.form.noSpeech,
       noTabSwitch: state.form.noTabSwitch,
       noTimeOut: state.form.noTimeOut,
+      identification: state.form.identification,
     };
 
     proctoringData.score = (state.score / state.numberOfQuestions) * 10;

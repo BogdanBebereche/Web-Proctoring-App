@@ -8,7 +8,7 @@ import ReplayIcon from "@material-ui/icons/Replay";
 import axios from "axios";
 import Default from "../Default";
 const API = process.env.REACT_APP_API_BASEURL;
-const FLASK_API_PHOTO = "http://localhost:5000/checkid";
+const FLASK_API_PHOTO = "http://localhost:5000/photo";
 
 const config = {
   baseURL: `${API}`,
@@ -19,16 +19,21 @@ function CheckID() {
   const [webc, setWebc] = useState(true);
   const [next, setNext] = useState(false);
   const [user, setUser] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [confirmation, setConfirmation] = useState(false);
   const TakePhoto = async () => {
+    setWebc(!webc);
     try {
+      setLoading(!loading);
       const response = await axios.get(`${FLASK_API_PHOTO}`);
       console.log(response.status);
+      setLoading(false);
+      setConfirmation(!confirmation);
     } catch (error) {
       console.log(error);
     }
 
     //console.log(response.status);
-    setWebc(!webc);
     setNext(!next);
   };
   const ResetPhoto = () => {
@@ -65,11 +70,14 @@ function CheckID() {
           <h1>Check your ID</h1>
           <br />
           <div className="camera">
-            {webc ? (
-              <Webcam width="400px" />
-            ) : (
-              <h1>You have succesfully taken a photo, please continue</h1>
-            )}
+            {webc ? <Webcam width="400px" /> : null}
+            {confirmation ? (
+              <div>
+                <h1>ID recognized</h1>
+                <h1>You have succesfully taken a photo, please continue</h1>
+              </div>
+            ) : null}
+            {loading ? <h1>Loading...Please keep the ID on camera</h1> : null}
             <br />
             <br />
             {webc ? (
