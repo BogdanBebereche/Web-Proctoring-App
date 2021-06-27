@@ -1,4 +1,4 @@
-import React, { Component, Fragment, useReducer } from "react";
+import React, { Component, Fragment } from "react";
 import { Helmet } from "react-helmet";
 import classnames from "classnames";
 import M, { toast } from "materialize-css";
@@ -419,13 +419,8 @@ class Play extends Component {
     };
 
     proctoringData.score = (state.score / state.numberOfQuestions) * 10;
-    // this.setState({
-    //   initialFormState,
-    // });
+
     await axios.post(`${API}report/`, this.state.form, config);
-    //this.props.handleSuccess("Report added successfully!");
-    //await axios.put(, );
-    // await axios.put(`user/${props.id}`, score);
 
     setTimeout(() => {
       this.props.history.push("/play/quizSummary", playerStats);

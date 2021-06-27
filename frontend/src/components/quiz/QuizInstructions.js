@@ -4,7 +4,6 @@ import { Helmet } from "react-helmet";
 import { BrowserRouter, Link as RouteLink } from "react-router-dom"; // TODO: routing links
 import { Link } from "@material-ui/core";
 const API = process.env.REACT_APP_API_BASEURL;
-const REACT_API = process.env.REACT_APP_BASEURL;
 
 const QuizInstructions = () => (
   <Fragment>

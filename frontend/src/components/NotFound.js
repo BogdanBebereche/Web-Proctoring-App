@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
-const API = process.env.REACT_APP_API_BASEURL;
 
 const Default = () => (
   <Fragment>

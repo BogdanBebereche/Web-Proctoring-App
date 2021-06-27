@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
-const API = process.env.REACT_APP_API_BASEURL;
+
 const Home = () => (
   <Fragment>
     <Helmet>

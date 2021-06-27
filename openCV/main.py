@@ -16,27 +16,21 @@ CORS(app)
 
 @app.route('/', methods = ['get'])
 def index():
-  # Detect the coordinates
-  detector = dlib.get_frontal_face_detector()
 
+  detector = dlib.get_frontal_face_detector()
   cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)
 
   while True:
-      # Capture frame-by-frame
       ret, frame = cap.read()
-      # mirrors the image, I prefer it like that
       frame = cv2.flip(frame, 1)
 
-      # RGB to grayscale, need to process it as grayscale
       gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
       faces = detector(gray)
 
-      # Iterator to count faces
       i = 0
       result = 0
 
       for face in faces:
-          # Get the coordinates of faces
           x, y = face.left(), face.top()
           x1, y1 = face.right(), face.bottom()
           cv2.rectangle(frame, (x, y), (x1, y1), (0, 255, 0), 2)
@@ -45,17 +39,15 @@ def index():
           img_item = "face" + str(i+1)+".jpg"
           cv2.imwrite(img_item, roi_gray)
 
-          # Increment iterator for each face in faces
           i = i + 1
 
-          # Display the box and faces
           cv2.putText(frame, 'face num' + str(i), (x - 10, y - 10),
                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
           print(face, i)
 
       # Display the resulting frame
       #TODO REMOVE
-      cv2.imshow('frame', frame)
+      cv2.imshow('During exam', frame)
 
       # This command let's us quit with the "q" button on a keyboard.
       if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -70,14 +62,6 @@ def index():
           cap.release()
           cv2.destroyAllWindows()
           return(str(result))
-
-
-      #Testing
-      if cv2.waitKey(1) & 0xFF == ord('w'):
-          img_key = 'imgOnKey.jpg'
-          cv2.imwrite(img_key, roi_gray)
-          break
-
 
 
   cap.release()
@@ -100,10 +84,10 @@ def photo():
         for face in faces:
             x, y = face.left(), face.top()
             x1, y1 = face.right(), face.bottom()
-            roi_gray = gray[y:y + y1, x:x + x1] 
             id_face_image = "id_face_image.jpg"
             id_whole_image = "id_whole_image.jpg"
-            cv2.imwrite(id_face_image, roi_gray)
+            bgr_face = frame[y:y + y1, x:x + x1]
+            cv2.imwrite(id_face_image, bgr_face)
             cv2.imwrite(id_whole_image, frame)
             cap.release()
             cv2.destroyAllWindows()
@@ -113,21 +97,25 @@ def photo():
       if cv2.waitKey(1) & 0xFF == ord('q'):
           break
 
-  # cap.release()
-  # cv2.destroyAllWindows()
-  # return "-1"
 
-#TODO UNUSED
-def takePhoto():
-  videoCaptureObject = cv2.VideoCapture(0, cv2.CAP_DSHOW)
-  result = True
-  while(result):
-    ret,frame = videoCaptureObject.read()
-    cv2.imwrite("imageID.jpg",frame)
-    result = False
-  videoCaptureObject.release()
-  cv2.destroyAllWindows()
-  return "NULL"
+def convert_and_trim_bb(image, rect):
+	# extract the starting and ending (x, y)-coordinates of the
+	# bounding box
+	startX = rect.left()
+	startY = rect.top()
+	endX = rect.right()
+	endY = rect.bottom()
+	# ensure the bounding box coordinates fall within the spatial
+	# dimensions of the image
+	startX = max(0, startX)
+	startY = max(0, startY)
+	endX = min(endX, image.shape[1])
+	endY = min(endY, image.shape[0])
+	# compute the width and height of the bounding box
+	w = endX - startX
+	h = endY - startY
+	# return our bounding box coordinates
+	return (startX, startY, w, h)
 
 
 
@@ -146,25 +134,21 @@ def verifyid():
       for face in faces:
           x, y = face.left(), face.top()
           x1, y1 = face.right(), face.bottom()
-          cv2.rectangle(frame, (x, y), (x1, y1), (0, 255, 0), 2)
+          # cv2.rectangle(frame, (x, y), (x1, y1), (0, 255, 0), 2)
 
           roi_gray = gray[y:y + y1, x:x + x1]
           img_item = "face" + str(i+1)+".jpg"
           cv2.imwrite(img_item, roi_gray)
           cv2.imwrite("verification_image.jpg", frame)
 
-          # Increment iterator for each face in faces
-          i = i + 1
 
-          # Display the box and faces
-          cv2.putText(frame, 'face num' + str(i), (x - 10, y - 10),
-                      cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 255), 2)
+          i = i + 1
           print(face, i)
 
           if i > 0:
-            imageID = face_recognition.load_image_file("face1.jpg")
+            imageID = face_recognition.load_image_file("id_whole_image.jpg")
             imageID = cv2.cvtColor(imageID, cv2.COLOR_BGR2RGB)
-            first_face_id = face_recognition.load_image_file("first_face_id.jpg")
+            first_face_id = face_recognition.load_image_file("verification_image.jpg")
             first_face_id = cv2.cvtColor(first_face_id, cv2.COLOR_BGR2RGB)
 
             if imageID[0].any: 
@@ -176,7 +160,7 @@ def verifyid():
               encodeFace = face_recognition.face_encodings(first_face_id)[0]
               cv2.rectangle(first_face_id,(faceLoc[3],faceLoc[0]),(faceLoc[1],faceLoc[2]),(255,0,255),2)
 
-              results = face_recognition.compare_faces([encodeId], encodeFace)
+              results = face_recognition.compare_faces([encodeId], encodeFace, 0.6)
               print(results)
             if results[0] == True: 
               cap.release()
@@ -194,6 +178,19 @@ def verifyid():
       if cv2.waitKey(1) & 0xFF == ord('q'):
           break
 
+
+
+# #TODO UNUSED
+# def takePhoto():
+#   videoCaptureObject = cv2.VideoCapture(0, cv2.CAP_DSHOW)
+#   result = True
+#   while(result):
+#     ret,frame = videoCaptureObject.read()
+#     cv2.imwrite("imageID.jpg",frame)
+#     result = False
+#   videoCaptureObject.release()
+#   cv2.destroyAllWindows()
+#   return "NULL"
 
 
 if __name__ == '__main__':
