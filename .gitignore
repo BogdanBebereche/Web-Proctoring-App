@@ -105,3 +105,5 @@ dist
 
 # Individual API files
 api/config/*.json
+
+*/.jpg
