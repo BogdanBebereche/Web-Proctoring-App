@@ -57,11 +57,9 @@ def index():
       #Code to constantly check for the number of faces
       if i > 1:
           print('Multiple faces detected!')
-          result = -1
-          print(result)
           cap.release()
           cv2.destroyAllWindows()
-          return(str(result))
+          return("MULTIPLE FACES")
 
 
   cap.release()

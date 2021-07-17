@@ -27,6 +27,7 @@ const proctoringData = {
   noTimeOut: 0,
   score: 0,
   identification: false,
+  faceMovement: false,
 };
 
 class Play extends Component {
@@ -170,6 +171,9 @@ class Play extends Component {
     const verifyExam = async () => {
       try {
         const res = await axios.get(`${FLASK_API}`);
+        if (res.data === "MULTIPLE FACES") {
+          proctoringData.faceMovement = true;
+        }
       } catch (error) {
         console.log(error);
       }
@@ -415,6 +419,7 @@ class Play extends Component {
       noTabSwitch: state.form.noTabSwitch,
       noTimeOut: state.form.noTimeOut,
       identification: state.form.identification,
+      faceMovement: state.form.faceMovement,
     };
 
     proctoringData.score = (state.score / state.numberOfQuestions) * 10;

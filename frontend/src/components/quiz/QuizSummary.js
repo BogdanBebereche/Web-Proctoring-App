@@ -25,6 +25,7 @@ class QuizSummary extends Component {
       noFace: 0,
       noTimeOut: 0,
       identification: false,
+      faceMovement: false,
     };
   }
 
@@ -61,6 +62,7 @@ class QuizSummary extends Component {
         noFace: state.noFace,
         noTimeOut: state.noTimeOut,
         identification: state.identification,
+        faceMovement: state.faceMovement,
       });
     }
   }
@@ -162,6 +164,17 @@ class QuizSummary extends Component {
             ) : (
               <span className="right">
                 {this.state.identification.toString()}
+              </span>
+            )}
+            <br />
+            <span className="stat left">Face movement </span>
+            {this.state.faceMovement === true ? (
+              <span className="right" style={{ color: "red" }}>
+                {this.state.faceMovement.toString()}
+              </span>
+            ) : (
+              <span className="right">
+                {this.state.faceMovement.toString()}
               </span>
             )}
             <br />
