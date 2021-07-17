@@ -6,6 +6,8 @@ module.exports = function (sequelize, DataTypes) {
     noFace: DataTypes.INTEGER,
     noTimeOut: DataTypes.INTEGER,
     score: DataTypes.FLOAT,
+    video: DataTypes.BLOB,
+    imageID: DataTypes.BLOB,
   });
   return Reports;
 };

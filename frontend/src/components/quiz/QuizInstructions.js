@@ -18,6 +18,8 @@ const QuizInstructions = () => (
 
         <li>The timer starts as soon as the game loads.</li>
         <li>The grade will be revealed at the end.</li>
+        <li>You must share the whole screen when asked</li>
+        <li>You must have the taskbar visible on the operating system</li>
       </ul>
       <br />
       <h1>The student must have:</h1>

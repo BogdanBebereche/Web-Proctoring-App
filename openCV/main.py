@@ -5,7 +5,6 @@ import cv2
 import numpy as np
 import dlib
 import time
-import face_recognition as fr
 from tkinter import Tk
 from deepface import DeepFace
 import face_recognition
@@ -29,6 +28,7 @@ def index():
 
       i = 0
       result = 0
+      fraud_counter = 0
 
       for face in faces:
           x, y = face.left(), face.top()
@@ -76,7 +76,7 @@ def photo():
 
   while True:
       ret, frame = cap.read()
-      cv2.imshow('frame', frame)
+      #cv2.imshow('frame', frame)
       frame = cv2.flip(frame, 1)
       gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
       faces = detector(gray)
@@ -191,6 +191,10 @@ def verifyid():
 #   videoCaptureObject.release()
 #   cv2.destroyAllWindows()
 #   return "NULL"
+
+def breakFrame(videoCaptureObject):
+  videoCaptureObject.release()
+  cv2.destroyAllWindows()
 
 
 if __name__ == '__main__':

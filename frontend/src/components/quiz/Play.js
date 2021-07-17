@@ -6,7 +6,7 @@ import questions from "../../questions.json";
 import isEmpty from "../../utils/is-empty";
 import Default from "../Default";
 import axios from "axios";
-const API = "http://localhost:3002/";
+const API = process.env.REACT_APP_API_BASEURL;
 const FLASK_API = "http://localhost:5000/";
 
 const config = {
@@ -167,7 +167,6 @@ class Play extends Component {
     };
     verifyid();
 
-    console.log("NOW VERIFY EXAM");
     const verifyExam = async () => {
       try {
         const res = await axios.get(`${FLASK_API}`);

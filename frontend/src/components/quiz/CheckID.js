@@ -32,8 +32,6 @@ function CheckID() {
     } catch (error) {
       console.log(error);
     }
-
-    //console.log(response.status);
     setNext(!next);
   };
   const ResetPhoto = () => {
@@ -56,6 +54,34 @@ function CheckID() {
     };
 
     checkAuth();
+
+    let recorder, stream;
+    function downloadFile(blob, filename) {
+      const url = window.URL.createObjectURL(blob);
+      console.log(url);
+    }
+
+    async function startRecording() {
+      try {
+        stream = await navigator.mediaDevices.getDisplayMedia({
+          video: { mediaSource: "screen" },
+        });
+        recorder = new MediaRecorder(stream);
+
+        const chunks = [];
+        recorder.ondataavailable = (e) => chunks.push(e.data);
+        recorder.onstop = (e) => {
+          const completeBlob = new Blob(chunks, { type: "video/mp4;" });
+          downloadFile(completeBlob, "Video.mp4");
+          console.log(completeBlob);
+        };
+
+        recorder.start();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    startRecording();
 
     return () => checkAuth();
   }, []);
