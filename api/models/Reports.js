@@ -8,6 +8,8 @@ module.exports = function (sequelize, DataTypes) {
     score: DataTypes.FLOAT,
     video: DataTypes.BLOB,
     imageID: DataTypes.BLOB,
+    identification: DataTypes.BOOLEAN,
+    faceMovement: DataTypes.BOOLEAN,
   });
   return Reports;
 };

@@ -11,6 +11,8 @@ module.exports.create = async (req, res) => {
       noTimeOut: req.body.noTimeOut,
       studentId: req.user.id,
       score: req.body.score,
+      identification: req.body.identification,
+      faceMovement: req.body.faceMovement,
     });
 
     res.status(201).send(report);

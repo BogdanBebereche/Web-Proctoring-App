@@ -130,10 +130,10 @@ class QuizSummary extends Component {
             <span className="stat left">Number of words spoken </span>
             {this.state.noSpeech > 0 ? (
               <span className="right" style={{ color: "red" }}>
-                {this.state.noSpeech}
+                {">0"}
               </span>
             ) : (
-              <span className="right">{this.state.noSpeech}</span>
+              <span className="right">{"0"}</span>
             )}
             <br />
             <span className="stat left">

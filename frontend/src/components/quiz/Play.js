@@ -93,13 +93,13 @@ class Play extends Component {
       .join("");
     console.log(text);
     var noWords = text.split(" ").length;
-    if (noWords > 0) {
-      M.toast({
-        html: "You are not allowed to talk during the quiz!",
-        classes: "toast-invalid",
-        displayLength: 1500,
-      });
-    }
+    // if (noWords > 0) {
+    //   M.toast({
+    //     html: "You are not allowed to talk during the quiz!",
+    //     classes: "toast-invalid",
+    //     displayLength: 1500,
+    //   });
+    // }
     let checkRecord = setInterval(() => {
       if (noWords > 0) {
         proctoringData.noSpeech = text.split(" ").length;
