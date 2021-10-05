@@ -47,7 +47,7 @@ def index():
 
       # Display the resulting frame
       #TODO REMOVE
-      cv2.imshow('During exam', frame)
+      #cv2.imshow('During exam', frame)
 
       # This command let's us quit with the "q" button on a keyboard.
       if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -170,7 +170,7 @@ def verifyid():
               return "UNIDENTIFIED"
 
       #TODO REMOVE
-      cv2.imshow('frame', frame)
+      #cv2.imshow('frame', frame)
 
       # This command let's us quit with the "q" button on a keyboard.
       if cv2.waitKey(1) & 0xFF == ord('q'):
